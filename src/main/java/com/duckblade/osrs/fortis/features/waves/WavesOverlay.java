@@ -65,7 +65,7 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 	public void shutDown()
 	{
 		eventBus.unregister(this);
-		overlayManager.removeIf(o -> o instanceof WavesOverlay);
+		overlayManager.remove(this);
 	}
 
 	@Override
