@@ -101,12 +101,13 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 
 	private void setState(ColosseumState newValue, boolean forceEvent)
 	{
+		if (!forceEvent && currentState.equals(newValue))
+		{
+			return;
+		}
+
 		ColosseumState previous = currentState;
 		currentState = newValue;
-
-		if (forceEvent || !currentState.equals(previous))
-		{
-			eventBus.post(new ColosseumStateChanged(previous, currentState));
-		}
+		eventBus.post(new ColosseumStateChanged(previous, currentState));
 	}
 }
