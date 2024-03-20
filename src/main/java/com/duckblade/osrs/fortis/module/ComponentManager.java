@@ -1,7 +1,6 @@
 package com.duckblade.osrs.fortis.module;
 
 import com.duckblade.osrs.fortis.FortisColosseumConfig;
-import static com.duckblade.osrs.fortis.module.FortisColosseumModule.LIFECYCLE_COMPONENTS;
 import com.duckblade.osrs.fortis.util.ColosseumState;
 import com.duckblade.osrs.fortis.util.ColosseumStateChanged;
 import com.duckblade.osrs.fortis.util.ColosseumStateTracker;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
