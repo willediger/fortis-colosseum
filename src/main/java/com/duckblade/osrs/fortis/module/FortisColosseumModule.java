@@ -21,11 +21,11 @@ public class FortisColosseumModule extends AbstractModule
 	@Override
 	protected void configure()
 	{
+		bind(ComponentManager.class);
 	}
 
 	@Provides
 	@Singleton
-	@Named(LIFECYCLE_COMPONENTS)
 	Set<PluginLifecycleComponent> lifecycleComponents(
 		ColosseumStateTracker colosseumStateTracker,
 		LeftClickBankAll leftClickBankAll

@@ -34,8 +34,6 @@ public class ComponentManager
 	private final GameEventManager gameEventManager;
 	private final FortisColosseumConfig config;
 	private final ColosseumStateTracker colosseumStateTracker;
-
-	@Named(LIFECYCLE_COMPONENTS)
 	private final Set<PluginLifecycleComponent> components;
 
 	private final Map<PluginLifecycleComponent, Boolean> states = new HashMap<>();
