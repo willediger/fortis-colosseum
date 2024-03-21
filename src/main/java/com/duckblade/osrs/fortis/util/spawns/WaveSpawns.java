@@ -71,7 +71,7 @@ public class WaveSpawns
 		}
 		if (wave >= 5)
 		{
-			builder.spawn(new WaveSpawn(wave % 2, Enemy.JAVELIN_COLOSSUS));
+			builder.spawn(new WaveSpawn(2 - (wave % 2), Enemy.JAVELIN_COLOSSUS));
 		}
 
 		// manticore every wave 4 and up, varying between 1 and 2 spawns
