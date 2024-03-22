@@ -55,7 +55,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		int region = lp == null ? -1 : WorldPoint.fromLocalInstance(client, lp).getRegionID();
 
 		boolean inLobby = region == REGION_LOBBY;
-		boolean inColosseum = region == REGION_COLOSSEUM;
+		boolean inColosseum = client.isInInstancedRegion() && region == REGION_COLOSSEUM;
 
 		if (!inColosseum)
 		{
