@@ -3,8 +3,8 @@
 Utilities and information for the Fortis Colosseum challenge gauntlet.
 
 
-[![Active Installs](http://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/installs/plugin/fortis-colosseum)](https://runelite.net/plugin-hub/show/fortis-colosseum)
-[![Plugin Rank](http://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/plugin/fortis-colosseum)](https://runelite.net/plugin-hub/show/fortis-colosseum)
+[![Active Installs](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/fortis-colosseum)](https://runelite.net/plugin-hub/show/fortis-colosseum)
+[![Plugin Rank](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/rank/plugin/fortis-colosseum)](https://runelite.net/plugin-hub/show/fortis-colosseum)
 
 ### Current Features
 
