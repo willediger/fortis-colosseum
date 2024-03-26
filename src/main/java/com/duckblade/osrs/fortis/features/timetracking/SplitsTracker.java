@@ -1,6 +1,7 @@
 package com.duckblade.osrs.fortis.features.timetracking;
 
 import com.duckblade.osrs.fortis.FortisColosseumConfig;
+import com.duckblade.osrs.fortis.features.timetracking.livesplit.LiveSplitManager;
 import com.duckblade.osrs.fortis.module.PluginLifecycleComponent;
 import com.duckblade.osrs.fortis.util.ColosseumState;
 import com.duckblade.osrs.fortis.util.ColosseumStateChanged;
@@ -34,8 +35,8 @@ public class SplitsTracker implements PluginLifecycleComponent
 	private final EventBus eventBus;
 
 	private final Client client;
-	private final FortisColosseumConfig config;
 	private final ColosseumStateTracker stateTracker;
+	private final LiveSplitManager liveSplitManager;
 
 	private int runStart = -1;
 	private int lastWaveStart = -1;
@@ -88,8 +89,11 @@ public class SplitsTracker implements PluginLifecycleComponent
 		int duration = parseTimeString(m.group("duration"));
 		int cumulative = getCumulativeDuration();
 
-		splits.add(new Split(wave, duration, cumulative));
+		Split newSplit = new Split(wave, duration, cumulative);
+		splits.add(newSplit);
 		lastWaveStart = -1;
+
+		liveSplitManager.onSplit(newSplit);
 	}
 
 	@Subscribe
@@ -100,6 +104,7 @@ public class SplitsTracker implements PluginLifecycleComponent
 			if (e.getNewState().getWaveNumber() == 1)
 			{
 				runStart = client.getTickCount();
+				liveSplitManager.onRunStart();
 			}
 			lastWaveStart = client.getTickCount();
 		}

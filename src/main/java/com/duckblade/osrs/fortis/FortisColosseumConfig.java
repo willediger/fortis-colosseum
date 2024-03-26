@@ -8,6 +8,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Range;
 
 @ConfigGroup(FortisColosseumConfig.CONFIG_GROUP)
 public interface FortisColosseumConfig extends Config
@@ -86,6 +87,32 @@ public interface FortisColosseumConfig extends Config
 	default SplitsFileWriter.WriteCondition splitsFileCondition()
 	{
 		return SplitsFileWriter.WriteCondition.NEVER;
+	}
+
+	String KEY_LIVESPLIT_PORT = "splitsLivesplitPort";
+	@ConfigItem(
+		keyName = KEY_LIVESPLIT_PORT,
+		name = "LiveSplit Port",
+		description = "Send splits events to LiveSplit. Set to 0 to disable.<br>Requires LiveSplit Server. See the plugin README for more details.",
+		position = 203,
+		section = SECTION_SPLITS
+	)
+	@Range(min = 0, max = 65535)
+	default int splitsLivesplitPort()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+		keyName = "splitsLivesplitAutoReset",
+		name = "LiveSplit Auto-Reset",
+		description = "Automatically restart the timer at Wave 1 when a new run is started.",
+		position = 204,
+		section = SECTION_SPLITS
+	)
+	default boolean splitsLivesplitAutoReset()
+	{
+		return false;
 	}
 
 }
