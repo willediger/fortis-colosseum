@@ -1,5 +1,7 @@
 package com.duckblade.osrs.fortis;
 
+import com.duckblade.osrs.fortis.features.timetracking.SplitsFileManager;
+import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
 import com.duckblade.osrs.fortis.features.waves.EnemyNameMode;
 import com.duckblade.osrs.fortis.features.waves.WaveOverlayMode;
 import net.runelite.client.config.Config;
@@ -53,6 +55,25 @@ public interface FortisColosseumConfig extends Config
 	default EnemyNameMode wavesOverlayNames()
 	{
 		return EnemyNameMode.COLLOQUIAL;
+	}
+
+	@ConfigSection(
+		name = "Splits",
+		description = "Time tracking and splits",
+		position = 200
+	)
+	String SECTION_SPLITS = "splits";
+
+	@ConfigItem(
+		keyName = "splitsOverlayMode",
+		name = "Overlay Panel",
+		description = "Show splits as an overlay panel.",
+		position = 201,
+		section = SECTION_SPLITS
+	)
+	default SplitsOverlayMode splitsOverlayMode()
+	{
+		return SplitsOverlayMode.OFF;
 	}
 
 }

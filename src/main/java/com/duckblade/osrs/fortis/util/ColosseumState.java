@@ -12,6 +12,7 @@ public class ColosseumState
 	boolean inLobby;
 	boolean inColosseum;
 	int waveNumber;
+	boolean waveStarted;
 	Set<Handicap> handicaps;
 
 	@Getter(lazy = true)

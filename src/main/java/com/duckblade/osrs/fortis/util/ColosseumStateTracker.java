@@ -25,7 +25,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private static final int REGION_LOBBY = 7316;
 	private static final int REGION_COLOSSEUM = 7216;
 
-	private static final ColosseumState DEFAULT_STATE = new ColosseumState(false, false, 1, Collections.emptySet());
+	private static final ColosseumState DEFAULT_STATE = new ColosseumState(false, false, 1, false, Collections.emptySet());
 
 	private final Client client;
 	private final EventBus eventBus;
@@ -34,6 +34,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private ColosseumState currentState = DEFAULT_STATE;
 
 	private int waveNumber = 1;
+	private boolean waveStarted = false;
 	private final EnumSet<Handicap> handicaps = EnumSet.noneOf(Handicap.class); // todo track these
 
 	@Override
@@ -60,10 +61,11 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		if (!inColosseum)
 		{
 			waveNumber = 1;
+			waveStarted = false;
 		}
 
 		setState(
-			new ColosseumState(inLobby, inColosseum, waveNumber, handicaps),
+			new ColosseumState(inLobby, inColosseum, waveNumber, waveStarted, handicaps),
 			false
 		);
 	}
@@ -91,11 +93,13 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		if (msg.startsWith("<col=e00a19>Wave: "))
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
+			waveStarted = true;
 		}
 		else if (msg.startsWith("Wave ") && msg.contains("completed!"))
 		{
 			// it's either a two-char number or a number and a space
 			waveNumber = Integer.parseInt(msg.substring(5, 7).trim()) + 1;
+			waveStarted = false;
 		}
 	}
 

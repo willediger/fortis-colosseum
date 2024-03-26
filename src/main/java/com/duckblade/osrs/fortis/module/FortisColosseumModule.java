@@ -2,6 +2,8 @@ package com.duckblade.osrs.fortis.module;
 
 import com.duckblade.osrs.fortis.FortisColosseumConfig;
 import com.duckblade.osrs.fortis.features.LeftClickBankAll;
+import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlay;
+import com.duckblade.osrs.fortis.features.timetracking.SplitsTracker;
 import com.duckblade.osrs.fortis.features.waves.WavesOverlay;
 import com.duckblade.osrs.fortis.util.ColosseumStateTracker;
 import com.google.common.collect.ImmutableSet;
@@ -16,8 +18,6 @@ import net.runelite.client.config.ConfigManager;
 public class FortisColosseumModule extends AbstractModule
 {
 
-	public static final String LIFECYCLE_COMPONENTS = "FortisColosseumPLCs";
-
 	@Override
 	protected void configure()
 	{
@@ -29,12 +29,16 @@ public class FortisColosseumModule extends AbstractModule
 	Set<PluginLifecycleComponent> lifecycleComponents(
 		ColosseumStateTracker colosseumStateTracker,
 		LeftClickBankAll leftClickBankAll,
+		SplitsOverlay splitsOverlay,
+		SplitsTracker splitsTracker,
 		WavesOverlay wavesOverlay
 	)
 	{
 		return ImmutableSet.of(
 			colosseumStateTracker,
 			leftClickBankAll,
+			splitsOverlay,
+			splitsTracker,
 			wavesOverlay
 		);
 	}
