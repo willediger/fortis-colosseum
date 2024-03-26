@@ -1,6 +1,6 @@
 package com.duckblade.osrs.fortis;
 
-import com.duckblade.osrs.fortis.features.timetracking.SplitsFileManager;
+import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
 import com.duckblade.osrs.fortis.features.waves.EnemyNameMode;
 import com.duckblade.osrs.fortis.features.waves.WaveOverlayMode;
@@ -74,6 +74,18 @@ public interface FortisColosseumConfig extends Config
 	default SplitsOverlayMode splitsOverlayMode()
 	{
 		return SplitsOverlayMode.OFF;
+	}
+
+	@ConfigItem(
+		keyName = "splitsFileCondition",
+		name = "Save to File",
+		description = "Save splits to files in .runelite/fortis-colosseum/splits/",
+		position = 202,
+		section = SECTION_SPLITS
+	)
+	default SplitsFileWriter.WriteCondition splitsFileCondition()
+	{
+		return SplitsFileWriter.WriteCondition.NEVER;
 	}
 
 }

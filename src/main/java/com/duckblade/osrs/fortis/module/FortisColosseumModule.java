@@ -2,6 +2,7 @@ package com.duckblade.osrs.fortis.module;
 
 import com.duckblade.osrs.fortis.FortisColosseumConfig;
 import com.duckblade.osrs.fortis.features.LeftClickBankAll;
+import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlay;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsTracker;
 import com.duckblade.osrs.fortis.features.waves.WavesOverlay;
@@ -29,6 +30,7 @@ public class FortisColosseumModule extends AbstractModule
 	Set<PluginLifecycleComponent> lifecycleComponents(
 		ColosseumStateTracker colosseumStateTracker,
 		LeftClickBankAll leftClickBankAll,
+		SplitsFileWriter splitsFileWriter,
 		SplitsOverlay splitsOverlay,
 		SplitsTracker splitsTracker,
 		WavesOverlay wavesOverlay
@@ -37,6 +39,7 @@ public class FortisColosseumModule extends AbstractModule
 		return ImmutableSet.of(
 			colosseumStateTracker,
 			leftClickBankAll,
+			splitsFileWriter,
 			splitsOverlay,
 			splitsTracker,
 			wavesOverlay
