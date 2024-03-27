@@ -75,8 +75,8 @@ public class SplitsOverlay extends OverlayPanel implements PluginLifecycleCompon
 
 		TimerMode timerMode = TimerMode.fromClient(client);
 		SplitsOverlayMode overlayMode = config.splitsOverlayMode();
-
 		int currentWave = stateTracker.getCurrentState().getWaveNumber();
+
 		for (Split s : splitsTracker.getSplits())
 		{
 			addLine("Wave " + s.getWave(), overlayMode.formatSplit(timerMode, s));
@@ -89,7 +89,7 @@ public class SplitsOverlay extends OverlayPanel implements PluginLifecycleCompon
 			addLine("Wave " + currentWave, text);
 		}
 
-		String text = timerMode.format(splitsTracker.getCumulativeDuration());
+		String text = overlayMode.formatTotal(timerMode, splitsTracker.getWaveCumulativeDuration(), splitsTracker.getCumulativeDuration());
 		addLine("Total", text);
 
 		return super.render(graphics);

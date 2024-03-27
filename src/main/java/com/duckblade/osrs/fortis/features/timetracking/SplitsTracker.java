@@ -124,6 +124,29 @@ public class SplitsTracker implements PluginLifecycleComponent
 		return lastWaveStart == -1 ? -1 : client.getTickCount() - lastWaveStart;
 	}
 
+	public int getWaveCumulativeDuration()
+	{
+		int currentWaveTime = getWaveDuration();
+		if (splits.isEmpty())
+		{
+			return getWaveDuration();
+		}
+
+		int cumulative = 0;
+		for (Split split : splits)
+		{
+			int waveDuration = split.getWaveDuration();
+			cumulative += waveDuration;
+		}
+
+		if (currentWaveTime != -1)
+		{
+			cumulative += currentWaveTime;
+		}
+
+		return cumulative;
+	}
+
 	public int getCumulativeDuration()
 	{
 		if (splits.size() == 12)
