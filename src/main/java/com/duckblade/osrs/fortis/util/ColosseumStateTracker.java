@@ -90,7 +90,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		}
 
 		String msg = e.getMessage();
-		if (msg.startsWith("<col=e00a19>Wave: "))
+		if (msg.contains("Wave: ")) // only wave start messages contain a :
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
