@@ -82,7 +82,7 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 			state.getWaveSpawns().getReinforcements().forEach(s -> addSpawnLine(nameMode, s, true));
 		}
 
-		if (mode == WaveOverlayMode.BOTH)
+		if (mode == WaveOverlayMode.BOTH && state.getWaveNumber() != 12)
 		{
 			// a lil spacer
 			panelComponent.getChildren().add(TitleComponent.builder().text("").build());
