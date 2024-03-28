@@ -1,5 +1,6 @@
 package com.duckblade.osrs.fortis;
 
+import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
 import com.duckblade.osrs.fortis.features.waves.EnemyNameMode;
@@ -9,6 +10,7 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
+import net.runelite.client.ui.overlay.components.ComponentOrientation;
 
 @ConfigGroup(FortisColosseumConfig.CONFIG_GROUP)
 public interface FortisColosseumConfig extends Config
@@ -59,9 +61,70 @@ public interface FortisColosseumConfig extends Config
 	}
 
 	@ConfigSection(
+		name = "Modifiers",
+		description = "Modifiers overlay and selection options",
+		position = 200
+	)
+	String SECTION_MODIFIERS = "modifiers";
+
+	@ConfigItem(
+		keyName = "modifiersOverlayEnabled",
+		name = "Overlay Enabled",
+		description = "Shows the current active modifiers as an overlay of icons",
+		position = 201,
+		section = SECTION_MODIFIERS
+	)
+	default boolean modifiersOverlayEnabled()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "modifiersOverlayOrientation",
+		name = "Overlay Orientation",
+		description = "Whether to render vertically or horizontally",
+		position = 201,
+		section = SECTION_MODIFIERS
+	)
+	default ComponentOrientation modifiersOverlayOrientation()
+	{
+		return ComponentOrientation.HORIZONTAL;
+	}
+
+	@ConfigItem(
+		keyName = "modifiersOverlayOrientation",
+		name = "Overlay Orientation",
+		description = "Whether to render vertically or horizontally",
+		position = 201,
+		section = SECTION_MODIFIERS
+	)
+	void setModifiersOverlayOrientation(ComponentOrientation orientation);
+
+	@ConfigItem(
+		keyName = "modifiersOverlayStyle",
+		name = "Style",
+		description = "Whether to render vertically or horizontally",
+		position = 201,
+		section = SECTION_MODIFIERS
+	)
+	default ModifierOverlay.Style modifiersOverlayStyle()
+	{
+		return ModifierOverlay.Style.COMPACT;
+	}
+
+	@ConfigItem(
+		keyName = "modifiersOverlayStyle",
+		name = "Style",
+		description = "Whether to render vertically or horizontally",
+		position = 201,
+		section = SECTION_MODIFIERS
+	)
+	void setModifiersOverlayStyle(ModifierOverlay.Style style);
+
+	@ConfigSection(
 		name = "Splits",
 		description = "Time tracking and splits",
-		position = 200
+		position = 300
 	)
 	String SECTION_SPLITS = "splits";
 
@@ -69,7 +132,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "splitsOverlayMode",
 		name = "Overlay Panel",
 		description = "Show splits as an overlay panel.",
-		position = 201,
+		position = 301,
 		section = SECTION_SPLITS
 	)
 	default SplitsOverlayMode splitsOverlayMode()
@@ -81,7 +144,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "splitsFileCondition",
 		name = "Save to File",
 		description = "Save splits to files in .runelite/fortis-colosseum/splits/",
-		position = 202,
+		position = 302,
 		section = SECTION_SPLITS
 	)
 	default SplitsFileWriter.WriteCondition splitsFileCondition()
@@ -94,7 +157,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = KEY_LIVESPLIT_PORT,
 		name = "LiveSplit Port",
 		description = "Send splits events to LiveSplit. Set to 0 to disable.<br>Requires LiveSplit Server. See the plugin README for more details.",
-		position = 203,
+		position = 303,
 		section = SECTION_SPLITS
 	)
 	@Range(min = 0, max = 65535)
@@ -107,7 +170,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "splitsLivesplitAutoReset",
 		name = "LiveSplit Auto-Reset",
 		description = "Automatically restart the timer at Wave 1 when a new run is started.",
-		position = 204,
+		position = 304,
 		section = SECTION_SPLITS
 	)
 	default boolean splitsLivesplitAutoReset()

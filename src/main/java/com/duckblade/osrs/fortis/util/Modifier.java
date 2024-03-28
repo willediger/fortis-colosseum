@@ -2,6 +2,7 @@ package com.duckblade.osrs.fortis.util;
 
 import java.util.EnumSet;
 import java.util.Set;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.Client;
 
@@ -28,6 +29,8 @@ public enum Modifier
 	private final String name;
 	private final int[] spriteIds;
 	private final int id;
+
+	@Getter
 	private final int levelVarb;
 
 	public int getLevel(Client client)
@@ -37,7 +40,7 @@ public enum Modifier
 			return 1;
 		}
 
-		return client.getVarbitValue(levelVarb);
+		return Math.max(1, client.getVarbitValue(levelVarb));
 	}
 
 	public String getName(int level)
@@ -64,7 +67,7 @@ public enum Modifier
 
 	public int getSpriteId(Client client)
 	{
-		return spriteIds[getLevel(client) - 1];
+		return getSpriteId(getLevel(client));
 	}
 
 	public static Modifier forId(int id)
