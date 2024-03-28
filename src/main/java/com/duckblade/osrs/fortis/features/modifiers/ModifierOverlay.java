@@ -117,9 +117,9 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 		getPanelComponent().setOrientation(orientation);
 		getPanelComponent().setGap(new Point(SPRITE_PADDING, SPRITE_PADDING));
 
-		List<Modifier> mods = stateTracker.getCurrentState().getModifiers();
 		int x = 4;
 		int y = 4;
+		List<Modifier> mods = stateTracker.getCurrentState().getModifiers();
 		for (Modifier modifier : mods)
 		{
 			if (orientation == ComponentOrientation.HORIZONTAL)
@@ -167,7 +167,7 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 			return null;
 		}
 
-		int level = modifier.getLevel(client);
+		int level = Math.max(1, modifier.getLevel(client));
 		if (config.modifiersOverlayStyle() == Style.COMPACT)
 		{
 			BufferedImage ret = ImageUtil.resizeCanvas(modifierSprite, 38, 38);

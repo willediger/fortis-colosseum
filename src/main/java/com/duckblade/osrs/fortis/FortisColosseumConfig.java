@@ -83,7 +83,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "modifiersOverlayOrientation",
 		name = "Overlay Orientation",
 		description = "Whether to render vertically or horizontally",
-		position = 201,
+		position = 202,
 		section = SECTION_MODIFIERS
 	)
 	default ComponentOrientation modifiersOverlayOrientation()
@@ -95,7 +95,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "modifiersOverlayOrientation",
 		name = "Overlay Orientation",
 		description = "Whether to render vertically or horizontally",
-		position = 201,
+		position = 202,
 		section = SECTION_MODIFIERS
 	)
 	void setModifiersOverlayOrientation(ComponentOrientation orientation);
@@ -104,7 +104,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "modifiersOverlayStyle",
 		name = "Style",
 		description = "Whether to render vertically or horizontally",
-		position = 201,
+		position = 203,
 		section = SECTION_MODIFIERS
 	)
 	default ModifierOverlay.Style modifiersOverlayStyle()
@@ -116,10 +116,22 @@ public interface FortisColosseumConfig extends Config
 		keyName = "modifiersOverlayStyle",
 		name = "Style",
 		description = "Whether to render vertically or horizontally",
-		position = 201,
+		position = 203,
 		section = SECTION_MODIFIERS
 	)
 	void setModifiersOverlayStyle(ModifierOverlay.Style style);
+
+	@ConfigItem(
+		keyName = "modifiersNamesOnSelectWidget",
+		name = "Show Names on Selector",
+		description = "Show the modifier names on the pre-wave selector panel.",
+		position = 204,
+		section = SECTION_MODIFIERS
+	)
+	default boolean modifiersNamesOnSelectWidget()
+	{
+		return true;
+	}
 
 	@ConfigSection(
 		name = "Splits",

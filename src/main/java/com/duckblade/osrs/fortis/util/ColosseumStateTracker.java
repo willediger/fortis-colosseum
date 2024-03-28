@@ -43,6 +43,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private int waveNumber = 1;
 	private boolean waveStarted = false;
 
+	@Getter
 	private final List<Modifier> modifierOptions = new ArrayList<>(3);
 	private final List<Modifier> modifiers = new ArrayList<>(12);
 

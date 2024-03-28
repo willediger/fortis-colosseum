@@ -40,7 +40,7 @@ public enum Modifier
 			return 1;
 		}
 
-		return Math.max(1, client.getVarbitValue(levelVarb));
+		return client.getVarbitValue(levelVarb);
 	}
 
 	public String getName(int level)
@@ -62,7 +62,7 @@ public enum Modifier
 
 	public int getSpriteId(int level)
 	{
-		return spriteIds[level - 1];
+		return spriteIds[Math.max(0, level - 1)];
 	}
 
 	public int getSpriteId(Client client)
