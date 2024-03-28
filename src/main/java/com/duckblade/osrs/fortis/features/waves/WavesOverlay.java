@@ -27,7 +27,7 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 	private static final Color HEADER_COLOR = ColorScheme.BRAND_ORANGE;
 	private static final Color SPAWN_COLOR = Color.white;
 	private static final Color REINFORCEMENT_COLOR = ColorScheme.GRAND_EXCHANGE_ALCH;
-	private static final Color MODIFIER_COLOR = ColorScheme.GRAND_EXCHANGE_LIMIT;
+	private static final Color MODIFIER_COLOR = new Color(228, 156, 248);
 
 	private final EventBus eventBus;
 	private final OverlayManager overlayManager;
@@ -87,7 +87,10 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 			WaveSpawns spawns = state.getWaveSpawns(client);
 			spawns.getSpawns().forEach(s -> addSpawnLine(nameMode, s, SPAWN_COLOR));
 			spawns.getReinforcements().forEach(s -> addSpawnLine(nameMode, s, REINFORCEMENT_COLOR));
-			spawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
+			if (config.wavesOverlayShowModifierSpawns())
+			{
+				spawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
+			}
 		}
 
 		if (mode == WaveOverlayMode.BOTH && state.getWaveNumber() != 12)
@@ -102,7 +105,10 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 			WaveSpawns nextSpawns = state.getNextWaveSpawns(client);
 			nextSpawns.getSpawns().forEach(s -> addSpawnLine(nameMode, s, SPAWN_COLOR));
 			nextSpawns.getReinforcements().forEach(s -> addSpawnLine(nameMode, s, REINFORCEMENT_COLOR));
-			nextSpawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
+			if (config.wavesOverlayShowModifierSpawns())
+			{
+				nextSpawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
+			}
 		}
 
 		return super.render(graphics);

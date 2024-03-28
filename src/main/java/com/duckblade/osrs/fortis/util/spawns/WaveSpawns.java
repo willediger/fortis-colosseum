@@ -44,6 +44,10 @@ public class WaveSpawns
 		// skip early for boss
 		if (wave == 12)
 		{
+			if (modifiers.contains(Modifier.QUARTET))
+			{
+				builder.spawn(new WaveSpawn(1, Enemy.FREMENNIK));
+			}
 			builder.spawn(new WaveSpawn(1, Enemy.SOL_HEREDIT));
 			return builder.build();
 		}

@@ -60,6 +60,18 @@ public interface FortisColosseumConfig extends Config
 		return EnemyNameMode.COLLOQUIAL;
 	}
 
+	@ConfigItem(
+		keyName = "wavesOverlayShowModifierSpawns",
+		name = "Show Modifier-Only Spawns",
+		description = "Include Angry Bees and the Doom Scorpion in the list of spawns for each wave.<br>Dynamic Duo and Quartet are always shown.",
+		position = 103,
+		section = SECTION_WAVES_OVERLAY
+	)
+	default boolean wavesOverlayShowModifierSpawns()
+	{
+		return false;
+	}
+
 	@ConfigSection(
 		name = "Modifiers",
 		description = "Modifiers overlay and selection options",
