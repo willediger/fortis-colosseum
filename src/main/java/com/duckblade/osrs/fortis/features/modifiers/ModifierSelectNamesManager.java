@@ -29,6 +29,7 @@ public class ModifierSelectNamesManager implements PluginLifecycleComponent
 {
 
 	private static final int SCRIPT_MODIFIER_SELECT_INIT = 4931;
+	private static final int SCRIPT_MODIFIER_SELECT_OUTLINE = 4938;
 
 	private static final int WIDGET_OPTION_1 = WidgetUtil.packComponentId(865, 15);
 	private static final int WIDGET_OPTION_2 = WidgetUtil.packComponentId(865, 16);
@@ -59,7 +60,7 @@ public class ModifierSelectNamesManager implements PluginLifecycleComponent
 	@Subscribe
 	public void onScriptPostFired(ScriptPostFired e)
 	{
-		if (e.getScriptId() != SCRIPT_MODIFIER_SELECT_INIT)
+		if (e.getScriptId() != SCRIPT_MODIFIER_SELECT_INIT && e.getScriptId() != SCRIPT_MODIFIER_SELECT_OUTLINE)
 		{
 			return;
 		}

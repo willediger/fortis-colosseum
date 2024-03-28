@@ -106,7 +106,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
-			trackSelectedModifier();
+			trackSelectedModifier(); // todo use minimus spawn to detect sooner?
 		}
 		else if (msg.startsWith("Wave ") && msg.contains("completed!"))
 		{
