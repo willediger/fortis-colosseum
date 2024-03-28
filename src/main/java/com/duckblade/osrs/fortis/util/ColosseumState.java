@@ -1,7 +1,7 @@
 package com.duckblade.osrs.fortis.util;
 
 import com.duckblade.osrs.fortis.util.spawns.WaveSpawns;
-import java.util.Set;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Value;
 
@@ -13,7 +13,7 @@ public class ColosseumState
 	boolean inColosseum;
 	int waveNumber;
 	boolean waveStarted;
-	Set<Handicap> handicaps;
+	Map<Handicap, Integer> handicaps;
 
 	@Getter(lazy = true)
 	WaveSpawns waveSpawns = WaveSpawns.forWave(this, false);

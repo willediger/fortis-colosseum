@@ -3,7 +3,7 @@ package com.duckblade.osrs.fortis.util.spawns;
 import com.duckblade.osrs.fortis.util.ColosseumState;
 import com.duckblade.osrs.fortis.util.Handicap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Singular;
@@ -23,18 +23,19 @@ public class WaveSpawns
 	public static WaveSpawns forWave(ColosseumState state, boolean next)
 	{
 		int wave = next ? state.getWaveNumber() + 1 : state.getWaveNumber();
-		Set<Handicap> handicaps = state.getHandicaps();
+		Map<Handicap, Integer> handicaps = state.getHandicaps();
 
 		WaveSpawnsBuilder builder = WaveSpawns.builder();
 
 		// handicap-only spawns
-		if (handicaps.contains(Handicap.DOOM_SCORPION))
+		if (handicaps.containsKey(Handicap.DOOM_SCORPION))
 		{
 			builder.spawn(new WaveSpawn(1, Enemy.DOOM_SCORPION));
 		}
-		if (handicaps.contains(Handicap.BEES))
+
+		if (handicaps.containsKey(Handicap.BEES))
 		{
-			builder.spawn(new WaveSpawn(1, Enemy.ANGRY_BEES));
+			builder.spawn(new WaveSpawn(handicaps.get(Handicap.BEES), Enemy.ANGRY_BEES));
 		}
 
 		// skip early for boss
@@ -45,7 +46,7 @@ public class WaveSpawns
 		}
 
 		// frems every wave, 3 by default or 4 with quartet
-		builder.spawn(new WaveSpawn(handicaps.contains(Handicap.QUARTET) ? 4 : 3, Enemy.FREMENNIK));
+		builder.spawn(new WaveSpawn(handicaps.containsKey(Handicap.QUARTET) ? 4 : 3, Enemy.FREMENNIK));
 
 		if (wave <= 6)
 		{
@@ -85,7 +86,7 @@ public class WaveSpawns
 		// shockwave waves 7, 8, and 11, and 2 spawns if dynamic duo is on
 		if (wave == 7 || wave == 8 || wave == 11)
 		{
-			builder.spawn(new WaveSpawn(handicaps.contains(Handicap.DYNAMIC_DUO) ? 2 : 1, Enemy.SHOCKWAVE_COLOSSUS));
+			builder.spawn(new WaveSpawn(handicaps.containsKey(Handicap.DYNAMIC_DUO) ? 2 : 1, Enemy.SHOCKWAVE_COLOSSUS));
 		}
 
 		// minotaur replaces jaguar warrior in replacements wave 7 and up
