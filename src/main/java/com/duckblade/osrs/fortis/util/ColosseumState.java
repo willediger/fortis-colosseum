@@ -2,11 +2,13 @@ package com.duckblade.osrs.fortis.util;
 
 import com.duckblade.osrs.fortis.util.spawns.WaveSpawns;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.Client;
 
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class ColosseumState
 {
 
@@ -25,7 +27,10 @@ public class ColosseumState
 	@Getter
 	private final List<Modifier> modifiers;
 
+	@EqualsAndHashCode.Exclude
 	private WaveSpawns waveSpawns;
+
+	@EqualsAndHashCode.Exclude
 	private WaveSpawns nextWaveSpawns;
 
 	public WaveSpawns getWaveSpawns(Client client)
