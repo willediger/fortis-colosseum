@@ -1,13 +1,13 @@
 package com.duckblade.osrs.fortis.util.spawns;
 
 import com.duckblade.osrs.fortis.util.ColosseumState;
-import com.duckblade.osrs.fortis.util.Handicap;
+import com.duckblade.osrs.fortis.util.Modifier;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
+import net.runelite.api.Client;
 
 @Value
 @Builder(access = AccessLevel.PRIVATE)
@@ -20,22 +20,25 @@ public class WaveSpawns
 	@Singular
 	List<WaveSpawn> reinforcements;
 
-	public static WaveSpawns forWave(ColosseumState state, boolean next)
+	@Singular
+	List<WaveSpawn> modifierSpawns;
+
+	public static WaveSpawns forWave(Client client, ColosseumState state, boolean next)
 	{
 		int wave = next ? state.getWaveNumber() + 1 : state.getWaveNumber();
-		Map<Handicap, Integer> handicaps = state.getHandicaps();
+		List<Modifier> modifiers = state.getModifiers();
 
 		WaveSpawnsBuilder builder = WaveSpawns.builder();
 
-		// handicap-only spawns
-		if (handicaps.containsKey(Handicap.DOOM_SCORPION))
+		// modifier-only spawns
+		if (modifiers.contains(Modifier.DOOM_SCORPION))
 		{
-			builder.spawn(new WaveSpawn(1, Enemy.DOOM_SCORPION));
+			builder.modifierSpawn(new WaveSpawn(1, Enemy.DOOM_SCORPION));
 		}
 
-		if (handicaps.containsKey(Handicap.BEES))
+		if (modifiers.contains(Modifier.BEES))
 		{
-			builder.spawn(new WaveSpawn(handicaps.get(Handicap.BEES), Enemy.ANGRY_BEES));
+			builder.modifierSpawn(new WaveSpawn(Modifier.BEES.getLevel(client), Enemy.ANGRY_BEES));
 		}
 
 		// skip early for boss
@@ -46,7 +49,7 @@ public class WaveSpawns
 		}
 
 		// frems every wave, 3 by default or 4 with quartet
-		builder.spawn(new WaveSpawn(handicaps.containsKey(Handicap.QUARTET) ? 4 : 3, Enemy.FREMENNIK));
+		builder.spawn(new WaveSpawn(modifiers.contains(Modifier.QUARTET) ? 4 : 3, Enemy.FREMENNIK));
 
 		if (wave <= 6)
 		{
@@ -86,7 +89,7 @@ public class WaveSpawns
 		// shockwave waves 7, 8, and 11, and 2 spawns if dynamic duo is on
 		if (wave == 7 || wave == 8 || wave == 11)
 		{
-			builder.spawn(new WaveSpawn(handicaps.containsKey(Handicap.DYNAMIC_DUO) ? 2 : 1, Enemy.SHOCKWAVE_COLOSSUS));
+			builder.spawn(new WaveSpawn(modifiers.contains(Modifier.DYNAMIC_DUO) ? 2 : 1, Enemy.SHOCKWAVE_COLOSSUS));
 		}
 
 		// minotaur replaces jaguar warrior in replacements wave 7 and up

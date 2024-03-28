@@ -3,9 +3,7 @@ package com.duckblade.osrs.fortis.util;
 import com.duckblade.osrs.fortis.module.PluginLifecycleComponent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.Getter;
@@ -32,9 +30,9 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private static final int REGION_COLOSSEUM = 7216;
 
 	private static final int SCRIPT_MODIFIER_SELECT_INIT = 4931;
-	private static final int VARBIT_HANDICAP_SELECTED = 9788;
+	private static final int VARBIT_MODIFIER_SELECTED = 9788;
 
-	private static final ColosseumState DEFAULT_STATE = new ColosseumState(false, false, 1, false, Collections.emptyMap());
+	private static final ColosseumState DEFAULT_STATE = new ColosseumState(false, false, 1, false, Collections.emptyList());
 
 	private final Client client;
 	private final EventBus eventBus;
@@ -45,8 +43,8 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private int waveNumber = 1;
 	private boolean waveStarted = false;
 
-	private final List<Handicap> handicapOptions = new ArrayList<>(3);
-	private final Map<Handicap, Integer> handicaps = new EnumMap<>(Handicap.class);
+	private final List<Modifier> modifierOptions = new ArrayList<>(3);
+	private final List<Modifier> modifiers = new ArrayList<>(12);
 
 	@Override
 	public void startUp()
@@ -73,12 +71,12 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		{
 			waveNumber = 1;
 			waveStarted = false;
-			handicapOptions.clear();
-			handicaps.clear();
+			modifierOptions.clear();
+			modifiers.clear();
 		}
 
 		setState(
-			new ColosseumState(inLobby, inColosseum, waveNumber, waveStarted, handicaps),
+			new ColosseumState(inLobby, inColosseum, waveNumber, waveStarted, Collections.unmodifiableList(modifiers)),
 			false
 		);
 	}
@@ -107,7 +105,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
-			trackSelectedHandicap();
+			trackSelectedModifier();
 		}
 		else if (msg.startsWith("Wave ") && msg.contains("completed!"))
 		{
@@ -128,23 +126,26 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		try
 		{
 			// pull the options available for next wave from the script args
-			handicapOptions.clear();
+			modifierOptions.clear();
 			Object[] args = e.getScriptEvent().getArguments();
-			handicapOptions.add(Handicap.forId((Integer) args[2]));
-			handicapOptions.add(Handicap.forId((Integer) args[3]));
-			handicapOptions.add(Handicap.forId((Integer) args[4]));
-			log.debug("Handicap options = {}", handicapOptions);
+			modifierOptions.add(Modifier.forId((Integer) args[2]));
+			modifierOptions.add(Modifier.forId((Integer) args[3]));
+			modifierOptions.add(Modifier.forId((Integer) args[4]));
+			log.debug("Modifier options = {}", modifierOptions);
 
-			// also refresh the previously selected handicaps from the same
-			for (Handicap h : Handicap.forBitmask((Integer) args[8]))
+			// also make sure we haven't missed any so far
+			for (Modifier h : Modifier.forBitmask((Integer) args[8]))
 			{
-				handicaps.put(h, h.getLevel(client));
+				if (!modifiers.contains(h))
+				{
+					modifiers.add(h);
+				}
 			}
 		}
 		catch (Exception ex)
 		{
 			// very much so don't want to throw uncaught into script eval
-			log.warn("failed to extract handicaps from arguments", ex);
+			log.warn("failed to extract modifier from arguments", ex);
 		}
 	}
 
@@ -160,30 +161,33 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		eventBus.post(new ColosseumStateChanged(previous, currentState));
 	}
 
-	private void trackSelectedHandicap()
+	private void trackSelectedModifier()
 	{
-		if (handicapOptions.isEmpty())
+		if (modifierOptions.isEmpty())
 		{
-			log.warn("Wave started but handicap options were not tracked");
+			log.warn("Wave started but modifier options were not tracked");
 			return;
 		}
 
-		int selectedIx = client.getVarbitValue(VARBIT_HANDICAP_SELECTED);
+		int selectedIx = client.getVarbitValue(VARBIT_MODIFIER_SELECTED);
 		if (selectedIx == 0)
 		{
-			log.debug("varb {} = 0, no handicap selected?", VARBIT_HANDICAP_SELECTED);
+			log.debug("varb {} = 0, no modifier selected?", VARBIT_MODIFIER_SELECTED);
 			return;
 		}
 
-		Handicap selected = handicapOptions.get(selectedIx - 1);
-		handicapOptions.clear();
+		Modifier selected = modifierOptions.get(selectedIx - 1);
+		modifierOptions.clear();
 		if (selected == null)
 		{
-			log.warn("Failed to select handicap with index {}, options = {}", selectedIx, handicapOptions);
+			log.warn("Failed to select modifier with index {}, options = {}", selectedIx, modifierOptions);
 			return;
 		}
 
-		handicaps.put(selected, selected.getLevel(client));
-		log.debug("Tracking handicap selection {} (ix {}), handicaps = {}", selected, selectedIx, handicaps);
+		if (!modifiers.contains(selected))
+		{
+			modifiers.add(selected);
+		}
+		log.debug("Tracked modifier selection {} (ix {}), handicaps = {}", selected, selectedIx, modifiers);
 	}
 }

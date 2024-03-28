@@ -1,24 +1,48 @@
 package com.duckblade.osrs.fortis.util;
 
 import com.duckblade.osrs.fortis.util.spawns.WaveSpawns;
-import java.util.Map;
+import java.util.List;
 import lombok.Getter;
-import lombok.Value;
+import lombok.RequiredArgsConstructor;
+import net.runelite.api.Client;
 
-@Value
+@RequiredArgsConstructor
 public class ColosseumState
 {
 
-	boolean inLobby;
-	boolean inColosseum;
-	int waveNumber;
-	boolean waveStarted;
-	Map<Handicap, Integer> handicaps;
+	@Getter
+	private final boolean inLobby;
 
-	@Getter(lazy = true)
-	WaveSpawns waveSpawns = WaveSpawns.forWave(this, false);
+	@Getter
+	private final boolean inColosseum;
 
-	@Getter(lazy = true)
-	WaveSpawns nextWaveSpawns = WaveSpawns.forWave(this, true);
+	@Getter
+	private final int waveNumber;
 
+	@Getter
+	private final boolean waveStarted;
+
+	@Getter
+	private final List<Modifier> modifiers;
+
+	private WaveSpawns waveSpawns;
+	private WaveSpawns nextWaveSpawns;
+
+	public WaveSpawns getWaveSpawns(Client client)
+	{
+		if (this.waveSpawns != null)
+		{
+			return this.waveSpawns;
+		}
+		return this.waveSpawns = WaveSpawns.forWave(client, this, false);
+	}
+
+	public WaveSpawns getNextWaveSpawns(Client client)
+	{
+		if (this.nextWaveSpawns != null)
+		{
+			return this.nextWaveSpawns;
+		}
+		return this.nextWaveSpawns = WaveSpawns.forWave(client, this, true);
+	}
 }

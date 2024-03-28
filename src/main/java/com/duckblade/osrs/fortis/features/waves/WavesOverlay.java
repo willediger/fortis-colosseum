@@ -5,11 +5,13 @@ import com.duckblade.osrs.fortis.module.PluginLifecycleComponent;
 import com.duckblade.osrs.fortis.util.ColosseumState;
 import com.duckblade.osrs.fortis.util.ColosseumStateTracker;
 import com.duckblade.osrs.fortis.util.spawns.WaveSpawn;
+import com.duckblade.osrs.fortis.util.spawns.WaveSpawns;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import net.runelite.api.Client;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.overlay.OverlayManager;
@@ -25,9 +27,11 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 	private static final Color HEADER_COLOR = ColorScheme.BRAND_ORANGE;
 	private static final Color SPAWN_COLOR = Color.white;
 	private static final Color REINFORCEMENT_COLOR = ColorScheme.GRAND_EXCHANGE_ALCH;
+	private static final Color MODIFIER_COLOR = ColorScheme.GRAND_EXCHANGE_LIMIT;
 
 	private final EventBus eventBus;
 	private final OverlayManager overlayManager;
+	private final Client client;
 	private final FortisColosseumConfig config;
 	private final ColosseumStateTracker stateTracker;
 
@@ -35,12 +39,14 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 	private WavesOverlay(
 		EventBus eventBus,
 		OverlayManager overlayManager,
+		Client client,
 		FortisColosseumConfig config,
 		ColosseumStateTracker stateTracker
 	)
 	{
 		this.eventBus = eventBus;
 		this.overlayManager = overlayManager;
+		this.client = client;
 		this.config = config;
 		this.stateTracker = stateTracker;
 
@@ -78,8 +84,10 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 		if (mode.showCurrent())
 		{
 			addTitleLine(state.getWaveNumber());
-			state.getWaveSpawns().getSpawns().forEach(s -> addSpawnLine(nameMode, s, false));
-			state.getWaveSpawns().getReinforcements().forEach(s -> addSpawnLine(nameMode, s, true));
+			WaveSpawns spawns = state.getWaveSpawns(client);
+			spawns.getSpawns().forEach(s -> addSpawnLine(nameMode, s, SPAWN_COLOR));
+			spawns.getReinforcements().forEach(s -> addSpawnLine(nameMode, s, REINFORCEMENT_COLOR));
+			spawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
 		}
 
 		if (mode == WaveOverlayMode.BOTH && state.getWaveNumber() != 12)
@@ -91,8 +99,10 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 		if (mode.showNext() && state.getWaveNumber() != 12)
 		{
 			addTitleLine(state.getWaveNumber() + 1);
-			state.getNextWaveSpawns().getSpawns().forEach(s -> addSpawnLine(nameMode, s, false));
-			state.getNextWaveSpawns().getReinforcements().forEach(s -> addSpawnLine(nameMode, s, true));
+			WaveSpawns nextSpawns = state.getNextWaveSpawns(client);
+			nextSpawns.getSpawns().forEach(s -> addSpawnLine(nameMode, s, SPAWN_COLOR));
+			nextSpawns.getReinforcements().forEach(s -> addSpawnLine(nameMode, s, REINFORCEMENT_COLOR));
+			nextSpawns.getModifierSpawns().forEach(s -> addSpawnLine(nameMode, s, MODIFIER_COLOR));
 		}
 
 		return super.render(graphics);
@@ -106,11 +116,11 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 			.build());
 	}
 
-	private void addSpawnLine(EnemyNameMode nameMode, WaveSpawn spawn, boolean isReinforcement)
+	private void addSpawnLine(EnemyNameMode nameMode, WaveSpawn spawn, Color color)
 	{
 		panelComponent.getChildren().add(LineComponent.builder()
 			.left(spawn.getCount() + "x " + nameMode.nameOf(spawn.getEnemy()))
-			.leftColor(isReinforcement ? REINFORCEMENT_COLOR : SPAWN_COLOR)
+			.leftColor(color)
 			.build());
 	}
 }
