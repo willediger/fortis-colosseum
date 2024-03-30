@@ -11,11 +11,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
+import net.runelite.api.NpcID;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.NpcDespawned;
 import net.runelite.api.events.ScriptPreFired;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
@@ -106,13 +108,21 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
-			trackSelectedModifier(); // todo use minimus spawn to detect sooner?
 		}
 		else if (msg.startsWith("Wave ") && msg.contains("completed!"))
 		{
 			// it's either a two-char number or a number and a space
 			waveNumber = Integer.parseInt(msg.substring(5, 7).trim()) + 1;
 			waveStarted = false;
+		}
+	}
+
+	@Subscribe
+	public void onNpcDespawned(NpcDespawned e)
+	{
+		if (currentState.isInColosseum() && e.getNpc().getId() == NpcID.MINIMUS_12808)
+		{
+			trackSelectedModifier();
 		}
 	}
 
