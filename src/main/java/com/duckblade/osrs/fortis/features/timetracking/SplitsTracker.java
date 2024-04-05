@@ -89,6 +89,12 @@ public class SplitsTracker implements PluginLifecycleComponent
 		int duration = parseTimeString(m.group("duration"));
 		int cumulative = getCumulativeDuration();
 
+		if (wave == 12)
+		{
+			// wave 12 message is your final overall time
+			duration = duration - splits.stream().mapToInt(Split::getWaveDuration).sum();
+		}
+
 		Split newSplit = new Split(wave, duration, cumulative);
 		splits.add(newSplit);
 		lastWaveStart = -1;
