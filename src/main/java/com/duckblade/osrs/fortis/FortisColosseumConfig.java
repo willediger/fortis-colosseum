@@ -1,6 +1,7 @@
 package com.duckblade.osrs.fortis;
 
 import com.duckblade.osrs.fortis.features.loot.LootHiderMode;
+import com.duckblade.osrs.fortis.features.loot.LootTotalMode;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
@@ -221,6 +222,18 @@ public interface FortisColosseumConfig extends Config
 	default LootHiderMode lootInterfaceHideNextWave()
 	{
 		return LootHiderMode.OFF;
+	}
+
+	@ConfigItem(
+		keyName = "lootInterfaceShowTotal",
+		name = "Show Loot Total",
+		description = "",
+		position = 403,
+		section = SECTION_LOOT_INTERFACE
+	)
+	default LootTotalMode lootInterfaceShowTotal()
+	{
+		return LootTotalMode.EARNED;
 	}
 
 }
