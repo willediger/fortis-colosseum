@@ -17,9 +17,8 @@ import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
-import static net.runelite.api.widgets.WidgetTextAlignment.CENTER;
+import net.runelite.api.widgets.WidgetTextAlignment;
 import net.runelite.api.widgets.WidgetType;
-import static net.runelite.api.widgets.WidgetType.TEXT;
 import net.runelite.api.widgets.WidgetUtil;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
@@ -118,15 +117,15 @@ public class LootHider implements PluginLifecycleComponent
 			buildGraphicWidget(buttonParent, x + 9, y + h - 9, w - 18, 9, SPRITE_IDS_STANDARD[7]),
 		};
 
-		buttonTextWidget = buttonParent.createChild(-1, TEXT)
+		buttonTextWidget = buttonParent.createChild(-1, WidgetType.TEXT)
 			.setPos(x, y, WidgetPositionMode.ABSOLUTE_LEFT, WidgetPositionMode.ABSOLUTE_TOP)
 			.setSize(w, h, WidgetSizeMode.ABSOLUTE, WidgetSizeMode.ABSOLUTE)
 			.setTextShadowed(true)
 			.setFontId(FontID.PLAIN_12)
 			.setTextColor(0xff981f)
 			.setText("Show Loot")
-			.setXTextAlignment(CENTER)
-			.setYTextAlignment(CENTER)
+			.setXTextAlignment(WidgetTextAlignment.CENTER)
+			.setYTextAlignment(WidgetTextAlignment.CENTER)
 			.setHasListener(true);
 		buttonTextWidget.revalidate();
 
