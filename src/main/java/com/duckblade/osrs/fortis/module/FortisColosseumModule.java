@@ -2,6 +2,7 @@ package com.duckblade.osrs.fortis.module;
 
 import com.duckblade.osrs.fortis.FortisColosseumConfig;
 import com.duckblade.osrs.fortis.features.LeftClickBankAll;
+import com.duckblade.osrs.fortis.features.loot.LootHider;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierSelectNamesManager;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
@@ -33,6 +34,7 @@ public class FortisColosseumModule extends AbstractModule
 		ColosseumStateTracker colosseumStateTracker,
 		LeftClickBankAll leftClickBankAll,
 		LiveSplitManager liveSplitManager,
+		LootHider lootHider,
 		ModifierOverlay modifierOverlay,
 		ModifierSelectNamesManager modifierSelectNamesManager,
 		SplitsFileWriter splitsFileWriter,
@@ -45,6 +47,7 @@ public class FortisColosseumModule extends AbstractModule
 			colosseumStateTracker,
 			leftClickBankAll,
 			liveSplitManager,
+			lootHider,
 			modifierOverlay,
 			modifierSelectNamesManager,
 			splitsFileWriter,

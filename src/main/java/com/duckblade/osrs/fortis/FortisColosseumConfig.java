@@ -1,5 +1,6 @@
 package com.duckblade.osrs.fortis;
 
+import com.duckblade.osrs.fortis.features.loot.LootHiderMode;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
@@ -17,17 +18,6 @@ public interface FortisColosseumConfig extends Config
 {
 
 	String CONFIG_GROUP = "fortiscolosseum";
-
-	@ConfigItem(
-		keyName = "leftClickBankAll",
-		name = "Left-Click Bank-All",
-		description = "Switch the two-click Bank-All to a single click in the loot chest interface.",
-		position = 1
-	)
-	default boolean leftClickBankAll()
-	{
-		return true;
-	}
 
 	@ConfigSection(
 		name = "Waves Overlay",
@@ -200,6 +190,37 @@ public interface FortisColosseumConfig extends Config
 	default boolean splitsLivesplitAutoReset()
 	{
 		return false;
+	}
+
+	@ConfigSection(
+		name = "Loot Interface",
+		description = "Options for the loot shown between waves and on completion.",
+		position = 400
+	)
+	String SECTION_LOOT_INTERFACE = "lootInterface";
+
+	@ConfigItem(
+		keyName = "leftClickBankAll", // legacy keyName
+		name = "Left-Click Bank-All",
+		description = "Switch the two-click Bank-All to a single click in the loot chest interface.",
+		position = 401,
+		section = SECTION_LOOT_INTERFACE
+	)
+	default boolean leftClickBankAll()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "lootInterfaceHideNextWave",
+		name = "Hide Next Wave",
+		description = "Hide potential next wave loot behind an extra click.",
+		position = 402,
+		section = SECTION_LOOT_INTERFACE
+	)
+	default LootHiderMode lootInterfaceHideNextWave()
+	{
+		return LootHiderMode.OFF;
 	}
 
 }
