@@ -12,10 +12,10 @@ public enum Modifier
 
 	BEES("Bees!", new int[]{5544, 5559, 5574}, 2, 9791),
 	BLASPHEMY("Blasphemy", new int[]{5538, 5553, 5568}, 4, 9790),
-	DOOM("Doom", new int[]{5543}, 8, -1),
+	DOOM("Doom", new int[]{5543, 5558, 5573}, 8, 10681),
 	DYNAMIC_DUO("Dynamic Duo", new int[]{5545}, 9, -1),
 	FRAILTY("Frailty", new int[]{5541, 5556, 5571}, 12, 9796),
-	MANTIMAYHEM("Mantimayhem", new int[]{5539, 5554, 5569}, 0, 9789),
+	MANTIMAYHEM("Mantimayhem", new int[]{5539, 5554, 5569}, 0, 4588),
 	MYOPIA("Myopia", new int[]{5547, 5562, 5577}, 11, 9795),
 	REENTRY("Reentry", new int[]{5536, 5551, 5566}, 1, 9792),
 	RED_FLAG("Red Flag", new int[]{5540}, 13, -1),
