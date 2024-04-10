@@ -31,11 +31,6 @@ public class WaveSpawns
 		WaveSpawnsBuilder builder = WaveSpawns.builder();
 
 		// modifier-only spawns
-		if (modifiers.contains(Modifier.DOOM_SCORPION))
-		{
-			builder.modifierSpawn(new WaveSpawn(1, Enemy.DOOM_SCORPION));
-		}
-
 		if (modifiers.contains(Modifier.BEES))
 		{
 			builder.modifierSpawn(new WaveSpawn(Modifier.BEES.getLevel(client), Enemy.ANGRY_BEES));

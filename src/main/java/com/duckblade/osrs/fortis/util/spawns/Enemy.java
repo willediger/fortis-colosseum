@@ -17,7 +17,6 @@ public enum Enemy
 	MINOTAUR("Minotaur", "Minotaur"),
 	SOL_HEREDIT("Sol Heredit", "Sol Heredit"),
 
-	DOOM_SCORPION("Doom Scorpion", "Doom Scorpion"),
 	ANGRY_BEES("Angry Bees", "BEES!!"),
 	;
 
