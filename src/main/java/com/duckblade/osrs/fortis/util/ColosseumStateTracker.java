@@ -176,6 +176,7 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 			return;
 		}
 
+		log.debug("Colosseum state change {} => {}", currentState, newValue);
 		ColosseumState previous = currentState;
 		currentState = newValue;
 		eventBus.post(new ColosseumStateChanged(previous, currentState));

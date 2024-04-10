@@ -5,10 +5,12 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.runelite.api.Client;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class ColosseumState
 {
 
@@ -25,12 +27,16 @@ public class ColosseumState
 	private final boolean waveStarted;
 
 	@Getter
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private final List<Modifier> modifiers;
 
 	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private WaveSpawns waveSpawns;
 
 	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private WaveSpawns nextWaveSpawns;
 
 	public WaveSpawns getWaveSpawns(Client client)
