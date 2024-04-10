@@ -7,6 +7,7 @@ import com.duckblade.osrs.fortis.util.ColosseumStateTracker;
 import com.duckblade.osrs.fortis.util.TimerMode;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -75,18 +76,30 @@ public class SplitsOverlay extends OverlayPanel implements PluginLifecycleCompon
 
 		TimerMode timerMode = TimerMode.fromClient(client);
 		SplitsOverlayMode overlayMode = config.splitsOverlayMode();
-		int currentWave = stateTracker.getCurrentState().getWaveNumber();
+		boolean waveStarted = stateTracker.getCurrentState().isWaveStarted();
+		int wavesWanted = config.splitsOverlayLines();
 
-		for (Split s : splitsTracker.getSplits())
+		if (wavesWanted > 0)
 		{
-			addLine("Wave " + s.getWave(), overlayMode.formatSplit(timerMode, s));
-		}
+			List<Split> allSplits = splitsTracker.getSplits();
+			boolean showCurrentWave = waveStarted && allSplits.size() < 12;
 
-		Split inProgress = splitsTracker.getInProgressSplit();
-		if (inProgress != null)
-		{
-			String text = overlayMode.formatSplit(timerMode, inProgress);
-			addLine("Wave " + currentWave, text);
+			int visibleSplitsCount = wavesWanted - (showCurrentWave ? 1 : 0);
+			if (visibleSplitsCount > 0)
+			{
+				List<Split> visibleSplits = allSplits.subList(Math.max(0, allSplits.size() - visibleSplitsCount), allSplits.size()); // last N splits
+				for (Split s : visibleSplits)
+				{
+					addLine("Wave " + s.getWave(), overlayMode.formatSplit(timerMode, s));
+				}
+			}
+
+			Split inProgress = splitsTracker.getInProgressSplit();
+			if (showCurrentWave)
+			{
+				String text = overlayMode.formatSplit(timerMode, inProgress);
+				addLine("Wave " + inProgress.getWave(), text);
+			}
 		}
 
 		String text = overlayMode.formatTotal(timerMode, splitsTracker.getWaveCumulativeDuration(), splitsTracker.getCumulativeDuration());

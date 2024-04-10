@@ -156,10 +156,25 @@ public interface FortisColosseumConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "splitsOverlayLines",
+		name = "Overlay Wave Count",
+		description = "Show the last N waves on the overlay panel.<br>" +
+			"Set to 1 to only show the active wave.<br>" +
+			"Set to 0 to only show the total time.",
+		position = 302,
+		section = SECTION_SPLITS
+	)
+	@Range(min = 0, max = 12)
+	default int splitsOverlayLines()
+	{
+		return 12;
+	}
+
+	@ConfigItem(
 		keyName = "splitsFileCondition",
 		name = "Save to File",
 		description = "Save splits to files in .runelite/fortis-colosseum/splits/",
-		position = 302,
+		position = 303,
 		section = SECTION_SPLITS
 	)
 	default SplitsFileWriter.WriteCondition splitsFileCondition()
@@ -172,7 +187,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = KEY_LIVESPLIT_PORT,
 		name = "LiveSplit Port",
 		description = "Send splits events to LiveSplit. Set to 0 to disable.<br>Requires LiveSplit Server. See the plugin README for more details.",
-		position = 303,
+		position = 304,
 		section = SECTION_SPLITS
 	)
 	@Range(min = 0, max = 65535)
@@ -185,7 +200,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "splitsLivesplitAutoReset",
 		name = "LiveSplit Auto-Reset",
 		description = "Automatically restart the timer at Wave 1 when a new run is started.",
-		position = 304,
+		position = 305,
 		section = SECTION_SPLITS
 	)
 	default boolean splitsLivesplitAutoReset()
