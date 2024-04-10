@@ -104,7 +104,12 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		}
 
 		String msg = e.getMessage();
-		if (msg.contains("Wave: ")) // only wave start messages contain a :
+		if (msg.contains("Sol Heredit jumps down from his seat"))
+		{
+			waveNumber = 12;
+			waveStarted = true;
+		}
+		else if (msg.contains("Wave: ")) // only wave start messages contain a :
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
