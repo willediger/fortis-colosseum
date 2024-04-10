@@ -5,6 +5,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.Client;
+import net.runelite.api.annotations.VisibleForDevtools;
 
 @RequiredArgsConstructor
 public enum Modifier
@@ -28,6 +29,8 @@ public enum Modifier
 
 	private final String name;
 	private final int[] spriteIds;
+
+	@Getter(onMethod_ = @VisibleForDevtools)
 	private final int id;
 
 	@Getter

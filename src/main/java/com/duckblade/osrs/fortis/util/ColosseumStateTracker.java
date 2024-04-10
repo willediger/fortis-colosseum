@@ -1,11 +1,13 @@
 package com.duckblade.osrs.fortis.util;
 
 import com.duckblade.osrs.fortis.module.PluginLifecycleComponent;
+import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +49,8 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 
 	@Getter
 	private final List<Modifier> modifierOptions = new ArrayList<>(3);
+
+	@Getter(value = AccessLevel.PACKAGE, onMethod_ = @VisibleForTesting)
 	private final List<Modifier> modifiers = new ArrayList<>(12);
 
 	@Override
