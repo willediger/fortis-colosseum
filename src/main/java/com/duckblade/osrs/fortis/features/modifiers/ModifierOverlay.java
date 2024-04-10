@@ -49,6 +49,7 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 	private static class SpriteCacheKey
 	{
 		Modifier modifier;
+		int level;
 		Style style;
 	}
 
@@ -182,7 +183,8 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 
 	private BufferedImage getSprite(Modifier modifier, Style style)
 	{
-		SpriteCacheKey key = new SpriteCacheKey(modifier, style);
+		int level = Math.max(1, modifier.getLevel(client));
+		SpriteCacheKey key = new SpriteCacheKey(modifier, level, style);
 		BufferedImage sprite;
 		if ((sprite = modifierSpriteCache.get(key)) != null)
 		{
@@ -190,21 +192,19 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 		}
 
 		log.debug("sprite cache miss");
-		sprite = getSpriteImpl(modifier, style);
+		sprite = getSpriteImpl(modifier, level, style);
 		modifierSpriteCache.put(key, sprite);
 		return sprite;
 	}
 
-	private BufferedImage getSpriteImpl(Modifier modifier, Style style)
+	private BufferedImage getSpriteImpl(Modifier modifier, int level, Style style)
 	{
-
-		BufferedImage modifierSprite = spriteManager.getSprite(modifier.getSpriteId(client), 0);
+		BufferedImage modifierSprite = spriteManager.getSprite(modifier.getSpriteId(level), 0);
 		if (modifierSprite == null)
 		{
 			return null;
 		}
 
-		int level = Math.max(1, modifier.getLevel(client));
 		if (style == Style.COMPACT)
 		{
 			BufferedImage ret = ImageUtil.resizeCanvas(modifierSprite, 38, 38);
