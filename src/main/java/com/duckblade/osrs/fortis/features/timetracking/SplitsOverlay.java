@@ -69,6 +69,7 @@ public class SplitsOverlay extends OverlayPanel implements PluginLifecycleCompon
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
+		long start = System.currentTimeMillis();
 		getPanelComponent().getChildren()
 			.add(TitleComponent.builder()
 				.text("Fortis Colosseum Splits")
@@ -105,6 +106,11 @@ public class SplitsOverlay extends OverlayPanel implements PluginLifecycleCompon
 		String text = overlayMode.formatTotal(timerMode, splitsTracker.getWaveCumulativeDuration(), splitsTracker.getCumulativeDuration());
 		addLine("Total", text);
 
+		long ms = System.currentTimeMillis() - start;
+		if (ms > 1)
+		{
+			log.debug("splits overlay rendered in {}ms", ms);
+		}
 		return super.render(graphics);
 	}
 

@@ -12,10 +12,14 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import joptsimple.internal.Strings;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuAction;
 import net.runelite.client.eventbus.EventBus;
@@ -31,6 +35,7 @@ import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 import net.runelite.client.util.ImageUtil;
 
 @Singleton
+@Slf4j
 public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComponent
 {
 
@@ -38,6 +43,13 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 	{
 		FANCY,
 		COMPACT,
+	}
+
+	@Value
+	private static class SpriteCacheKey
+	{
+		Modifier modifier;
+		Style style;
 	}
 
 	private static final int SPRITE_ID_BG = 5531;
@@ -50,6 +62,8 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 	private final TooltipManager tooltipManager;
 	private final FortisColosseumConfig config;
 	private final ColosseumStateTracker stateTracker;
+
+	private final Map<SpriteCacheKey, BufferedImage> modifierSpriteCache = new HashMap<>();
 
 	@Inject
 	public ModifierOverlay(
@@ -111,6 +125,7 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
+		long start = System.currentTimeMillis();
 		setPreferredColor(new Color(0, 0, 0, 0)); // no background
 
 		ComponentOrientation orientation = config.modifiersOverlayOrientation();
@@ -120,29 +135,35 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 		int x = 4;
 		int y = 4;
 		List<Modifier> mods = stateTracker.getCurrentState().getModifiers();
+		Style style = config.modifiersOverlayStyle();
 		for (Modifier modifier : mods)
 		{
 			if (orientation == ComponentOrientation.HORIZONTAL)
 			{
-				x += renderModifier(modifier, x, y) + SPRITE_PADDING;
+				x += renderModifier(modifier, style, x, y) + SPRITE_PADDING;
 			}
 			else
 			{
-				y += renderModifier(modifier, x, y) + SPRITE_PADDING;
+				y += renderModifier(modifier, style, x, y) + SPRITE_PADDING;
 			}
 		}
 
+		long ms = System.currentTimeMillis() - start;
+		if (ms > 1)
+		{
+			log.debug("modifier overlay rendered in {}ms", ms);
+		}
 		return super.render(graphics);
 	}
 
-	private int renderModifier(Modifier modifier, int x, int y)
+	private int renderModifier(Modifier modifier, Style style, int x, int y)
 	{
 		Rectangle bounds = getBounds();
 		net.runelite.api.Point mouse = client.getMouseCanvasPosition();
 		int mouseX = mouse.getX() - bounds.x;
 		int mouseY = mouse.getY() - bounds.y;
 
-		BufferedImage sprite = getSprite(modifier);
+		BufferedImage sprite = getSprite(modifier, style);
 		if (sprite == null)
 		{
 			return 0;
@@ -159,8 +180,24 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 		return hoverArea.width;
 	}
 
-	private BufferedImage getSprite(Modifier modifier)
+	private BufferedImage getSprite(Modifier modifier, Style style)
 	{
+		SpriteCacheKey key = new SpriteCacheKey(modifier, style);
+		BufferedImage sprite;
+		if ((sprite = modifierSpriteCache.get(key)) != null)
+		{
+			return sprite;
+		}
+
+		log.debug("sprite cache miss");
+		sprite = getSpriteImpl(modifier, style);
+		modifierSpriteCache.put(key, sprite);
+		return sprite;
+	}
+
+	private BufferedImage getSpriteImpl(Modifier modifier, Style style)
+	{
+
 		BufferedImage modifierSprite = spriteManager.getSprite(modifier.getSpriteId(client), 0);
 		if (modifierSprite == null)
 		{
@@ -168,7 +205,7 @@ public class ModifierOverlay extends OverlayPanel implements PluginLifecycleComp
 		}
 
 		int level = Math.max(1, modifier.getLevel(client));
-		if (config.modifiersOverlayStyle() == Style.COMPACT)
+		if (style == Style.COMPACT)
 		{
 			BufferedImage ret = ImageUtil.resizeCanvas(modifierSprite, 38, 38);
 			if (modifier.getLevelVarb() != -1)
