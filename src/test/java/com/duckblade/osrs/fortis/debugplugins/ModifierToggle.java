@@ -33,7 +33,7 @@ class ModifierToggle extends JButton
 		setLayout(new BorderLayout());
 		add(imageLabel = new JLabel(new ImageIcon(EMPTY)), BorderLayout.CENTER);
 		imageLabel.setHorizontalAlignment(JLabel.CENTER);
-		add(textLabel = new JLabel(modifier.name()), BorderLayout.SOUTH);
+		add(textLabel = new JLabel(modifier.getName(1)), BorderLayout.SOUTH);
 		textLabel.setHorizontalAlignment(JLabel.CENTER);
 
 		addActionListener((_e) -> toggle());
