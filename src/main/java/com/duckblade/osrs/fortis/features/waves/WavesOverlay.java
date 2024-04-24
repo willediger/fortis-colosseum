@@ -81,6 +81,12 @@ public class WavesOverlay extends OverlayPanel implements PluginLifecycleCompone
 		EnemyNameMode nameMode = config.wavesOverlayNames();
 
 		ColosseumState state = this.stateTracker.getCurrentState();
+		if (state.getWaveNumber() > 12)
+		{
+			// post-wave 12
+			return null;
+		}
+
 		if (mode.showCurrent())
 		{
 			addTitleLine(state.getWaveNumber());
