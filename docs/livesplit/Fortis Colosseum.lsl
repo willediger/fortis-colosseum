@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Layout version="1.6.1">
   <Mode>Vertical</Mode>
-  <X>2293</X>
-  <Y>1026</Y>
+  <X>100</X>
+  <Y>100</Y>
   <VerticalWidth>252</VerticalWidth>
-  <VerticalHeight>366</VerticalHeight>
+  <VerticalHeight>154</VerticalHeight>
   <HorizontalWidth>-1</HorizontalWidth>
   <HorizontalHeight>-1</HorizontalHeight>
   <Settings>
@@ -40,18 +40,24 @@
   </Settings>
   <Components>
     <Component>
+      <Path>LiveSplit.Server.dll</Path>
+      <Settings>
+        <Port>16834</Port>
+      </Settings>
+    </Component>
+    <Component>
       <Path>LiveSplit.Splits.dll</Path>
       <Settings>
         <Version>1.6</Version>
         <CurrentSplitTopColor>FF3373F4</CurrentSplitTopColor>
         <CurrentSplitBottomColor>FF153574</CurrentSplitBottomColor>
-        <VisualSplitCount>8</VisualSplitCount>
-        <SplitPreviewCount>1</SplitPreviewCount>
+        <VisualSplitCount>3</VisualSplitCount>
+        <SplitPreviewCount>0</SplitPreviewCount>
         <DisplayIcons>True</DisplayIcons>
         <ShowThinSeparators>True</ShowThinSeparators>
-        <AlwaysShowLastSplit>True</AlwaysShowLastSplit>
+        <AlwaysShowLastSplit>False</AlwaysShowLastSplit>
         <SplitWidth>20</SplitWidth>
-        <SplitTimesAccuracy>Seconds</SplitTimesAccuracy>
+        <SplitTimesAccuracy>Tenths</SplitTimesAccuracy>
         <AutomaticAbbreviations>False</AutomaticAbbreviations>
         <BeforeNamesColor>FFFFFFFF</BeforeNamesColor>
         <CurrentNamesColor>FFFFFFFF</CurrentNamesColor>
@@ -63,7 +69,7 @@
         <OverrideTimesColor>False</OverrideTimesColor>
         <ShowBlankSplits>True</ShowBlankSplits>
         <LockLastSplit>True</LockLastSplit>
-        <IconSize>24</IconSize>
+        <IconSize>27</IconSize>
         <IconShadows>True</IconShadows>
         <SplitHeight>3.6</SplitHeight>
         <CurrentSplitGradient>Vertical</CurrentSplitGradient>
@@ -84,22 +90,24 @@
             <Name>+/-</Name>
             <Type>Delta</Type>
             <Comparison>Current Comparison</Comparison>
-            <TimingMethod>Current Timing Method</TimingMethod>
+            <TimingMethod>Game Time</TimingMethod>
           </Settings>
           <Settings>
             <Version>1.5</Version>
             <Name>Time</Name>
+            <Type>SegmentTime</Type>
+            <Comparison>Current Comparison</Comparison>
+            <TimingMethod>Game Time</TimingMethod>
+          </Settings>
+          <Settings>
+            <Version>1.5</Version>
+            <Name>
+            </Name>
             <Type>SplitTime</Type>
             <Comparison>Current Comparison</Comparison>
-            <TimingMethod>Current Timing Method</TimingMethod>
+            <TimingMethod>Game Time</TimingMethod>
           </Settings>
         </Columns>
-      </Settings>
-    </Component>
-    <Component>
-      <Path>LiveSplit.Server.dll</Path>
-      <Settings>
-        <Port>16834</Port>
       </Settings>
     </Component>
     <Component>
@@ -135,38 +143,6 @@
         <TimingMethod>Current Timing Method</TimingMethod>
         <DecimalsSize>35</DecimalsSize>
         <SegmentTimerDecimalsSize>35</SegmentTimerDecimalsSize>
-      </Settings>
-    </Component>
-    <Component>
-      <Path>LiveSplit.PreviousSegment.dll</Path>
-      <Settings>
-        <Version>1.6</Version>
-        <TextColor>FFFFFFFF</TextColor>
-        <OverrideTextColor>False</OverrideTextColor>
-        <BackgroundColor>00FFFFFF</BackgroundColor>
-        <BackgroundColor2>00FFFFFF</BackgroundColor2>
-        <BackgroundGradient>Plain</BackgroundGradient>
-        <DeltaAccuracy>Tenths</DeltaAccuracy>
-        <DropDecimals>True</DropDecimals>
-        <Comparison>Current Comparison</Comparison>
-        <Display2Rows>False</Display2Rows>
-        <ShowPossibleTimeSave>False</ShowPossibleTimeSave>
-        <TimeSaveAccuracy>Tenths</TimeSaveAccuracy>
-      </Settings>
-    </Component>
-    <Component>
-      <Path>LiveSplit.SumOfBest.dll</Path>
-      <Settings>
-        <Version>1.4</Version>
-        <TextColor>FFFFFFFF</TextColor>
-        <OverrideTextColor>False</OverrideTextColor>
-        <TimeColor>FFFFFFFF</TimeColor>
-        <OverrideTimeColor>False</OverrideTimeColor>
-        <Accuracy>Seconds</Accuracy>
-        <BackgroundColor>00FFFFFF</BackgroundColor>
-        <BackgroundColor2>00FFFFFF</BackgroundColor2>
-        <BackgroundGradient>Plain</BackgroundGradient>
-        <Display2Rows>False</Display2Rows>
       </Settings>
     </Component>
   </Components>

@@ -9,5 +9,6 @@ public class Split
 	int wave;
 	int waveDuration;
 	int cumulativeDuration;
+	int cumulativeWaveDuration;
 
 }

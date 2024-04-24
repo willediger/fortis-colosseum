@@ -66,11 +66,19 @@ public class LiveSplitManager implements PluginLifecycleComponent
 		}
 	}
 
-	public void onRunStart()
+	public void onWaveStart(int wave)
 	{
 		if (active)
 		{
-			ls.sendCommand("starttimer");
+			if (wave == 1)
+			{
+				ls.sendCommand("setgametime 0");
+				ls.sendCommand("starttimer");
+			}
+			else
+			{
+				ls.sendCommand("unpausegametime");
+			}
 		}
 	}
 
@@ -79,9 +87,8 @@ public class LiveSplitManager implements PluginLifecycleComponent
 		if (active)
 		{
 			ls.sendCommand("pausegametime");
-			ls.sendCommand("setgametime " + TimerMode.PRECISE.format(e.getCumulativeDuration()));
+			ls.sendCommand("setgametime " + TimerMode.PRECISE.format(e.getCumulativeWaveDuration()));
 			ls.sendCommand("split");
-			ls.sendCommand("unpausegametime");
 		}
 	}
 }

@@ -88,14 +88,15 @@ public class SplitsTracker implements PluginLifecycleComponent
 		int wave = m.groupCount() == 2 ? Integer.parseInt(m.group("wave")) : 12;
 		int duration = parseTimeString(m.group("duration"));
 		int cumulative = getCumulativeDuration();
+		int cumulativeWave = getCumulativeWaveDuration();
 
 		if (wave == 12)
 		{
 			// wave 12 message is your final overall time
-			duration = duration - splits.stream().mapToInt(Split::getWaveDuration).sum();
+			duration = duration - cumulativeWave;
 		}
 
-		Split newSplit = new Split(wave, duration, cumulative);
+		Split newSplit = new Split(wave, duration, cumulative, cumulativeWave + duration);
 		splits.add(newSplit);
 		lastWaveStart = -1;
 
@@ -110,8 +111,8 @@ public class SplitsTracker implements PluginLifecycleComponent
 			if (e.getNewState().getWaveNumber() == 1)
 			{
 				runStart = client.getTickCount();
-				liveSplitManager.onRunStart();
 			}
+			liveSplitManager.onWaveStart(e.getNewState().getWaveNumber());
 			lastWaveStart = client.getTickCount();
 		}
 	}
@@ -121,7 +122,8 @@ public class SplitsTracker implements PluginLifecycleComponent
 		return new Split(
 			stateTracker.getCurrentState().getWaveNumber(),
 			getWaveDuration(),
-			getCumulativeDuration()
+			getCumulativeDuration(),
+			getCumulativeWaveDuration()
 		);
 	}
 
@@ -161,6 +163,13 @@ public class SplitsTracker implements PluginLifecycleComponent
 		}
 
 		return runStart == -1 ? -1 : client.getTickCount() - runStart;
+	}
+
+	public int getCumulativeWaveDuration()
+	{
+		return splits.stream()
+			.mapToInt(Split::getWaveDuration)
+			.sum();
 	}
 
 	public List<Split> getSplits()

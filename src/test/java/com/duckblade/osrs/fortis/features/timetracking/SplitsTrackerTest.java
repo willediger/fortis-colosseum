@@ -42,6 +42,29 @@ public class SplitsTrackerTest
 		assertEquals(272, splits.get(11).getWaveDuration());
 	}
 
+	@Test
+	void cumulativeWaveTimeShouldBeComputedFromTheSumOfAllWaves()
+	{
+		splitsTracker.onChatMessage(buildChatMessage("Wave 1 completed! Wave duration: 0:31.80"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 2 completed! Wave duration: 1:01.80"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 3 completed! Wave duration: 2:42.60"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 4 completed! Wave duration: 1:46.20"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 5 completed! Wave duration: 2:03.60"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 6 completed! Wave duration: 3:10.20"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 7 completed! Wave duration: 3:15.00"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 8 completed! Wave duration: 3:02.40"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 9 completed! Wave duration: 1:57.00"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 10 completed! Wave duration: 3:21.00"));
+		splitsTracker.onChatMessage(buildChatMessage("Wave 11 completed! Wave duration: 4:07.80"));
+		splitsTracker.onChatMessage(buildChatMessage("Colosseum duration: 29:42.60"));
+
+		List<Split> splits = splitsTracker.getSplits();
+		assertEquals(53, splits.get(0).getCumulativeWaveDuration());
+		assertEquals(156, splits.get(1).getCumulativeWaveDuration());
+		assertEquals(427, splits.get(2).getCumulativeWaveDuration());
+		assertEquals(2971, splits.get(11).getCumulativeWaveDuration());
+	}
+
 	private ChatMessage buildChatMessage(String msg)
 	{
 		return new ChatMessage(null, ChatMessageType.GAMEMESSAGE, null, msg, null, 0);

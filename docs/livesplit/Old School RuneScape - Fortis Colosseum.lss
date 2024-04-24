@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Run version="1.7.0">
   <GameIcon />
-  <GameName>OldSchool RuneScape - Fortis Colosseum</GameName>
-  <CategoryName>
-  </CategoryName>
-  <LayoutPath>
-  </LayoutPath>
+  <GameName>Old School RuneScape</GameName>
+  <CategoryName>Fortis Colosseum</CategoryName>
+  <LayoutPath>C:\Users\pasha\Documents\LiveSplit\Fortis Colosseum.lsl</LayoutPath>
   <Metadata>
     <Run id="" />
     <Platform usesEmulator="False">
@@ -15,8 +13,13 @@
     <Variables />
   </Metadata>
   <Offset>00:00:00</Offset>
-  <AttemptCount>1</AttemptCount>
-  <AttemptHistory />
+  <AttemptCount>4</AttemptCount>
+  <AttemptHistory>
+    <Attempt id="1" started="04/24/2024 14:43:39" isStartedSynced="True" ended="04/24/2024 14:52:57" isEndedSynced="True" />
+    <Attempt id="2" started="04/24/2024 14:53:07" isStartedSynced="True" ended="04/24/2024 14:57:27" isEndedSynced="True" />
+    <Attempt id="3" started="04/24/2024 14:57:39" isStartedSynced="True" ended="04/24/2024 15:00:42" isEndedSynced="True" />
+    <Attempt id="4" started="04/24/2024 15:02:52" isStartedSynced="True" ended="04/24/2024 15:06:42" isEndedSynced="True" />
+  </AttemptHistory>
   <Segments>
     <Segment>
       <Name>Wave 1</Name>
@@ -24,8 +27,24 @@
       <SplitTimes>
         <SplitTime name="Personal Best" />
       </SplitTimes>
-      <BestSegmentTime />
-      <SegmentHistory />
+      <BestSegmentTime>
+        <RealTime>00:00:32.3714724</RealTime>
+        <GameTime>00:00:32.4000000</GameTime>
+      </BestSegmentTime>
+      <SegmentHistory>
+        <Time id="1">
+          <RealTime>00:00:32.3714724</RealTime>
+          <GameTime>00:00:32.4000000</GameTime>
+        </Time>
+        <Time id="2">
+          <RealTime>00:00:32.9960214</RealTime>
+          <GameTime>00:00:33</GameTime>
+        </Time>
+        <Time id="4">
+          <RealTime>00:00:32.9999000</RealTime>
+          <GameTime>00:00:33</GameTime>
+        </Time>
+      </SegmentHistory>
     </Segment>
     <Segment>
       <Name>Wave 2</Name>
@@ -33,8 +52,24 @@
       <SplitTimes>
         <SplitTime name="Personal Best" />
       </SplitTimes>
-      <BestSegmentTime />
-      <SegmentHistory />
+      <BestSegmentTime>
+        <RealTime>00:01:22.8193908</RealTime>
+        <GameTime>00:01:16.8000000</GameTime>
+      </BestSegmentTime>
+      <SegmentHistory>
+        <Time id="1">
+          <RealTime>00:01:53.4376959</RealTime>
+          <GameTime>00:01:53.4000000</GameTime>
+        </Time>
+        <Time id="2">
+          <RealTime>00:02:20.4215466</RealTime>
+          <GameTime>00:02:20.4000000</GameTime>
+        </Time>
+        <Time id="4">
+          <RealTime>00:01:22.8193908</RealTime>
+          <GameTime>00:01:16.8000000</GameTime>
+        </Time>
+      </SegmentHistory>
     </Segment>
     <Segment>
       <Name>Wave 3</Name>
@@ -42,8 +77,16 @@
       <SplitTimes>
         <SplitTime name="Personal Best" />
       </SplitTimes>
-      <BestSegmentTime />
-      <SegmentHistory />
+      <BestSegmentTime>
+        <RealTime>00:02:23.9843765</RealTime>
+        <GameTime>00:02:22.2000000</GameTime>
+      </BestSegmentTime>
+      <SegmentHistory>
+        <Time id="1">
+          <RealTime>00:02:23.9843765</RealTime>
+          <GameTime>00:02:22.2000000</GameTime>
+        </Time>
+      </SegmentHistory>
     </Segment>
     <Segment>
       <Name>Wave 4</Name>
@@ -118,7 +161,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>Wave 12</Name>
+      <Name>Sol Heredit</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
