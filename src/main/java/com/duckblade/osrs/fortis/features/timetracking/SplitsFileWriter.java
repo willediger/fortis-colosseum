@@ -4,6 +4,8 @@ import com.duckblade.osrs.fortis.FortisColosseumConfig;
 import com.duckblade.osrs.fortis.module.PluginLifecycleComponent;
 import com.duckblade.osrs.fortis.util.ColosseumState;
 import com.duckblade.osrs.fortis.util.ColosseumStateChanged;
+import com.duckblade.osrs.fortis.util.TimerMode;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -44,7 +46,8 @@ public class SplitsFileWriter implements PluginLifecycleComponent
 	private final SplitsTracker splitsTracker;
 	private final ChatMessageManager chatMessageManager;
 
-	private ExecutorService es;
+	@VisibleForTesting
+	ExecutorService es;
 
 	@Override
 	public boolean isEnabled(FortisColosseumConfig config, ColosseumState colosseumState)
@@ -87,13 +90,16 @@ public class SplitsFileWriter implements PluginLifecycleComponent
 		}
 	}
 
-	private void queueWrite(List<Split> splitsIn)
+	@VisibleForTesting
+	void queueWrite(List<Split> splitsIn)
 	{
 		log.debug("Queuing write of {} splits", splitsIn.size());
 		final List<Split> splits = new ArrayList<>(splitsIn);
 		final String fileName = DATE_FORMATTER.format(new Date()) + ".txt";
 		es.submit(() ->
 		{
+			TimerMode timerMode = config.splitsFileTimerMode();
+
 			File dir = new File(RuneLite.RUNELITE_DIR, "fortis-colosseum/splits");
 			if (!dir.mkdirs() && !dir.exists())
 			{
@@ -111,9 +117,9 @@ public class SplitsFileWriter implements PluginLifecycleComponent
 					out.print("Wave ");
 					out.print(split.getWave());
 					out.print(": ");
-					out.print(split.getWaveDuration());
+					out.print(timerMode.format(split.getWaveDuration()));
 					out.print(" / ");
-					out.println(split.getCumulativeDuration());
+					out.println(timerMode.format(split.getCumulativeDuration()));
 				}
 			}
 			catch (Exception e)

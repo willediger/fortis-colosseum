@@ -11,6 +11,7 @@ public enum TimerMode
 
 	PRECISE("--:--.--"),
 	LAX("--:--"),
+	TICKS("--"),
 	;
 
 	private final String nullPattern;
@@ -36,6 +37,9 @@ public enum TimerMode
 
 			case LAX:
 				return String.format("%d:%02d", mins, seconds);
+
+			case TICKS:
+				return String.valueOf(ticks);
 
 			default:
 				throw new IllegalStateException("Unimplemented timer mode format " + this.name());

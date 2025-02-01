@@ -7,6 +7,7 @@ import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
 import com.duckblade.osrs.fortis.features.waves.EnemyNameMode;
 import com.duckblade.osrs.fortis.features.waves.WaveOverlayMode;
+import com.duckblade.osrs.fortis.util.TimerMode;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -182,12 +183,27 @@ public interface FortisColosseumConfig extends Config
 		return SplitsFileWriter.WriteCondition.NEVER;
 	}
 
+	@ConfigItem(
+		keyName = "splitsTimerMode",
+		name = "File Timer Mode",
+		description = "Whether to use human times or ticks when writing to the file.<br>" +
+				"'Precise' is minutes, seconds, and milliseconds.<br>" +
+				"'Lax' is minutes and seconds.<br>" +
+				"'Ticks' is an unconverted server tick count.",
+		position = 304,
+		section = SECTION_SPLITS
+	)
+	default TimerMode splitsFileTimerMode()
+	{
+		return TimerMode.TICKS;
+	}
+
 	String KEY_LIVESPLIT_PORT = "splitsLivesplitPort";
 	@ConfigItem(
 		keyName = KEY_LIVESPLIT_PORT,
 		name = "LiveSplit Port",
 		description = "Send splits events to LiveSplit. Set to 0 to disable.<br>Requires LiveSplit Server. See the plugin README for more details.",
-		position = 304,
+		position = 305,
 		section = SECTION_SPLITS
 	)
 	@Range(min = 0, max = 65535)
@@ -200,7 +216,7 @@ public interface FortisColosseumConfig extends Config
 		keyName = "splitsLivesplitAutoReset",
 		name = "LiveSplit Auto-Reset",
 		description = "Automatically restart the timer at Wave 1 when a new run is started.",
-		position = 305,
+		position = 306,
 		section = SECTION_SPLITS
 	)
 	default boolean splitsLivesplitAutoReset()
