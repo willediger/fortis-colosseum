@@ -119,6 +119,8 @@ public class SplitsFileWriter implements PluginLifecycleComponent
 					out.print(": ");
 					out.print(timerMode.format(split.getWaveDuration()));
 					out.print(" / ");
+					out.print(timerMode.format(split.getCumulativeWaveDuration()));
+					out.print(" / ");
 					out.println(timerMode.format(split.getCumulativeDuration()));
 				}
 			}
