@@ -2,7 +2,7 @@ package com.duckblade.osrs.fortis;
 
 import com.duckblade.osrs.fortis.features.loot.LootHiderMode;
 import com.duckblade.osrs.fortis.features.loot.LootTotalMode;
-import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
+import com.duckblade.osrs.fortis.features.modifiers.ModifierSpriteStyle;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlayMode;
 import com.duckblade.osrs.fortis.features.waves.EnemyNameMode;
@@ -111,9 +111,9 @@ public interface FortisColosseumConfig extends Config
 		position = 203,
 		section = SECTION_MODIFIERS
 	)
-	default ModifierOverlay.Style modifiersOverlayStyle()
+	default ModifierSpriteStyle modifiersOverlayStyle()
 	{
-		return ModifierOverlay.Style.COMPACT;
+		return ModifierSpriteStyle.COMPACT;
 	}
 
 	@ConfigItem(
@@ -123,7 +123,7 @@ public interface FortisColosseumConfig extends Config
 		position = 203,
 		section = SECTION_MODIFIERS
 	)
-	void setModifiersOverlayStyle(ModifierOverlay.Style style);
+	void setModifiersOverlayStyle(ModifierSpriteStyle style);
 
 	@ConfigItem(
 		keyName = "modifiersNamesOnSelectWidget",
@@ -135,6 +135,18 @@ public interface FortisColosseumConfig extends Config
 	default boolean modifiersNamesOnSelectWidget()
 	{
 		return true;
+	}
+
+	@ConfigItem(
+		keyName = "volatilityReminder",
+		name = "Volatility Reminder",
+		description = "Shows an icon overlay on dying NPCs to remind of their explosion.<br>Does NOT indicate the explosion radius.",
+		position = 205,
+		section = SECTION_MODIFIERS
+	)
+	default boolean volatilityReminder()
+	{
+		return false;
 	}
 
 	@ConfigSection(

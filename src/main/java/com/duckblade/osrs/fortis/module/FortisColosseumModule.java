@@ -6,6 +6,7 @@ import com.duckblade.osrs.fortis.features.loot.LootHider;
 import com.duckblade.osrs.fortis.features.loot.LootTotalDisplay;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierSelectNamesManager;
+import com.duckblade.osrs.fortis.features.modifiers.VolatilityReminder;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsFileWriter;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsOverlay;
 import com.duckblade.osrs.fortis.features.timetracking.SplitsTracker;
@@ -42,6 +43,7 @@ public class FortisColosseumModule extends AbstractModule
 		SplitsFileWriter splitsFileWriter,
 		SplitsOverlay splitsOverlay,
 		SplitsTracker splitsTracker,
+		VolatilityReminder volatilityReminder,
 		WavesOverlay wavesOverlay
 	)
 	{
@@ -56,6 +58,7 @@ public class FortisColosseumModule extends AbstractModule
 			splitsFileWriter,
 			splitsOverlay,
 			splitsTracker,
+			volatilityReminder,
 			wavesOverlay
 		);
 	}
