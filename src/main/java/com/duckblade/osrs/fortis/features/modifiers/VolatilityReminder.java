@@ -64,8 +64,8 @@ public class VolatilityReminder extends Overlay implements PluginLifecycleCompon
 	public boolean isEnabled(FortisColosseumConfig config, ColosseumState colosseumState)
 	{
 		return config.volatilityReminder()
-			&& colosseumState.isInColosseum();
-//			&& colosseumState.getModifiers().contains(Modifier.VOLATILITY);
+			&& colosseumState.isInColosseum()
+			&& colosseumState.getModifiers().contains(Modifier.VOLATILITY);
 	}
 
 	@Override
