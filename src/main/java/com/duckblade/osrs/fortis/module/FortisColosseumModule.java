@@ -4,6 +4,8 @@ import com.duckblade.osrs.fortis.FortisColosseumConfig;
 import com.duckblade.osrs.fortis.features.LeftClickBankAll;
 import com.duckblade.osrs.fortis.features.loot.LootHider;
 import com.duckblade.osrs.fortis.features.loot.LootTotalDisplay;
+import com.duckblade.osrs.fortis.features.loslinks.LosLinks;
+import com.duckblade.osrs.fortis.features.loslinks.LosLinksPanel;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierOverlay;
 import com.duckblade.osrs.fortis.features.modifiers.ModifierSelectNamesManager;
 import com.duckblade.osrs.fortis.features.modifiers.VolatilityReminder;
@@ -38,6 +40,8 @@ public class FortisColosseumModule extends AbstractModule
 		LiveSplitManager liveSplitManager,
 		LootHider lootHider,
 		LootTotalDisplay lootTotalDisplay,
+		LosLinks losLinks,
+		LosLinksPanel losLinksPanel,
 		ModifierOverlay modifierOverlay,
 		ModifierSelectNamesManager modifierSelectNamesManager,
 		SplitsFileWriter splitsFileWriter,
@@ -53,6 +57,8 @@ public class FortisColosseumModule extends AbstractModule
 			liveSplitManager,
 			lootHider,
 			lootTotalDisplay,
+			losLinks,
+			losLinksPanel,
 			modifierOverlay,
 			modifierSelectNamesManager,
 			splitsFileWriter,

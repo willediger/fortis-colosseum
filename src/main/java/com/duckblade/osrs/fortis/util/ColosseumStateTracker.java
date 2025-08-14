@@ -48,6 +48,9 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 	private boolean waveStarted = false;
 
 	@Getter
+	private int waveStartTick;
+
+	@Getter
 	private final List<Modifier> modifierOptions = new ArrayList<>(3);
 
 	@Getter(value = AccessLevel.PACKAGE, onMethod_ = @VisibleForTesting)
@@ -112,11 +115,13 @@ public class ColosseumStateTracker implements PluginLifecycleComponent
 		{
 			waveNumber = 12;
 			waveStarted = true;
+			waveStartTick = client.getTickCount();
 		}
 		else if (msg.contains("Wave: ")) // only wave start messages contain a :
 		{
 			waveNumber = Integer.parseInt(msg.substring(18, msg.length() - 6));
 			waveStarted = true;
+			waveStartTick = client.getTickCount();
 		}
 		else if (msg.startsWith("Wave ") && msg.contains("completed!"))
 		{
