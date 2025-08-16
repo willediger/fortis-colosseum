@@ -1,6 +1,5 @@
 package com.duckblade.osrs.fortis.features.loslinks.model;
 
-import com.duckblade.osrs.fortis.util.spawns.Enemy;
 import java.util.List;
 import lombok.Value;
 import net.runelite.api.Point;
@@ -21,18 +20,7 @@ public class WaveSpawnRecord
 
 		for (NpcSpawn spawn : spawns)
 		{
-			urlBuilder.append(String.format(
-				"%02d%02d%d",
-				spawn.getSwTile().getX(),
-				spawn.getSwTile().getY(),
-				spawn.getEnemyType().getColosimLosId()
-			));
-
-			if (spawn.getEnemyType() == Enemy.MANTICORE)
-			{
-				urlBuilder.append(spawn.getOrbOrder().toLoSCode());
-			}
-			urlBuilder.append(".");
+			urlBuilder.append(spawn.toLosUrlSegment());
 		}
 
 		int playerEncoded = playerTile.getX() + (256 * playerTile.getY());

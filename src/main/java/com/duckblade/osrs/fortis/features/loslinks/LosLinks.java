@@ -67,6 +67,7 @@ import net.runelite.api.events.NpcDespawned;
 import net.runelite.api.events.NpcSpawned;
 import net.runelite.api.gameval.NpcID;
 import net.runelite.api.gameval.ObjectID;
+import net.runelite.api.gameval.SpotanimID;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 
@@ -94,7 +95,7 @@ public class LosLinks implements PluginLifecycleComponent
 	private final EventBus eventBus;
 	private final ColosseumStateTracker stateTracker;
 
-	private final Map<Integer, NpcSpawn> trackedNpcs = new HashMap<>();
+	private final Set<Integer> trackedNpcs = new HashSet<>();
 	private final Set<Integer> reinforcementNpcs = new HashSet<>();
 	private final Map<Integer, ManticoreOrbOrder> manticoreOrbData = new HashMap<>();
 
@@ -197,20 +198,14 @@ public class LosLinks implements PluginLifecycleComponent
 			return;
 		}
 
-		NpcSpawn spawnRecord = new NpcSpawn(
-			npc.getIndex(),
-			convertToLoSCoordinates(LocalPoint.fromWorld(npc.getWorldView(), npc.getWorldLocation())),
-			enemyType,
-			enemyType == Enemy.MANTICORE ? new ManticoreOrbOrder() : null
-		);
-		trackedNpcs.put(npc.getIndex(), spawnRecord);
+		trackedNpcs.add(npc.getIndex());
 		if (client.getTickCount() != stateTracker.getWaveStartTick())
 		{
 			reinforcementNpcs.add(npc.getIndex());
 		}
 		if (enemyType == Enemy.MANTICORE)
 		{
-			manticoreOrbData.put(npc.getIndex(), spawnRecord.getOrbOrder());
+			manticoreOrbData.put(npc.getIndex(), new ManticoreOrbOrder());
 		}
 	}
 
@@ -227,11 +222,6 @@ public class LosLinks implements PluginLifecycleComponent
 	{
 		manticoreOrbData.forEach((index, orbData) ->
 		{
-			if (!orbData.toLoSCode().isEmpty())
-			{
-				return;
-			}
-
 			NPC npc = client.getLocalPlayer()
 				.getWorldView()
 				.npcs()
@@ -302,17 +292,10 @@ public class LosLinks implements PluginLifecycleComponent
 		assert client.isClientThread();
 
 		WorldView wv = client.getLocalPlayer().getWorldView();
-		List<NpcSpawn> spawns = trackedNpcs.keySet()
-			.stream()
+		List<NpcSpawn> spawns = trackedNpcs.stream()
 			.map(index -> wv.npcs().byIndex(index))
 			.filter(Objects::nonNull)
-			.map(npc ->
-				new NpcSpawn(
-					npc.getIndex(),
-					convertToLoSCoordinates(LocalPoint.fromWorld(npc.getWorldView(), npc.getWorldLocation())),
-					NPC_ID_TO_ENEMY_TYPE.get(npc.getId()),
-					manticoreOrbData.get(npc.getIndex())
-				))
+			.map(this::constructNpcSpawn)
 			.collect(Collectors.toList());
 
 		boolean waveSpawn = client.getTickCount() == stateTracker.getWaveStartTick();
@@ -321,10 +304,23 @@ public class LosLinks implements PluginLifecycleComponent
 
 		return new WaveSpawnRecord(
 			stateTracker.getCurrentState().getWaveNumber(),
-			convertToLoSCoordinates(client.getLocalPlayer().getLocalLocation()),
+			convertToLoSCoordinates(LocalPoint.fromWorld(client.getLocalPlayer().getWorldView(), client.getLocalPlayer().getWorldLocation())),
 			spawns,
 			waveSpawn,
 			mm3
+		);
+	}
+
+	private NpcSpawn constructNpcSpawn(NPC npc)
+	{
+		return new NpcSpawn(
+			npc.getIndex(),
+			convertToLoSCoordinates(LocalPoint.fromWorld(npc.getWorldView(), npc.getWorldLocation())),
+			NPC_ID_TO_ENEMY_TYPE.get(npc.getId()),
+			manticoreOrbData.get(npc.getIndex()),
+			npc.hasSpotAnim(SpotanimID.VFX_MANTICORE_01_PROJECTILE_MAGIC_01) &&
+				npc.hasSpotAnim(SpotanimID.VFX_MANTICORE_01_PROJECTILE_RANGED_01) &&
+				npc.hasSpotAnim(SpotanimID.VFX_MANTICORE_01_PROJECTILE_MELEE_01)
 		);
 	}
 

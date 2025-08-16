@@ -11,4 +11,28 @@ public class NpcSpawn
 	private final Point swTile; // in colosim coords
 	private final Enemy enemyType;
 	private final ManticoreOrbOrder orbOrder;
+	private final boolean manticoreCharged;
+
+	public String toLosUrlSegment()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format(
+			"%02d%02d%d",
+			swTile.getX(),
+			swTile.getY(),
+			enemyType.getColosimLosId()
+		));
+
+		if (enemyType == Enemy.MANTICORE)
+		{
+			if (!manticoreCharged)
+			{
+				sb.append('u');
+			}
+			sb.append(orbOrder.toLoSCode());
+		}
+
+		sb.append('.');
+		return sb.toString();
+	}
 }
